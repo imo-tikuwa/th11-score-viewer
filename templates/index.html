@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>東方地霊殿のスコアデータCSVをグラフ表示するやつ</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="index is-preload">
+    <div id="page-wrapper">
+      <article id="main">
+        <header class="special container">
+          <h2>東方地霊殿のスコアデータCSVをグラフ表示するやつ</h2>
+          <span class="icon solid fa-chart-bar"></span>
+          <form action="/" enctype="multipart/form-data" method="POST">
+            <table>
+              <tr>
+                <th>CSVファイル1<small>（必須）</small></th>
+                <td><input type="file" name="csv_file1" accept="text/csv"></td>
+              </tr>
+              <tr>
+                <th>比較対象CSVファイル2<small>（任意）</small></th>
+                <td><input type="file" name="csv_file2" accept="text/csv"></td>
+              </tr>
+            </table>
+            <input type="submit" value="グラフ表示"/>
+          </form>
+        </header>
+      </article>
+    </div>
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+      $("form").submit(function(){
+        if (!$("input[name='csv_file1']").val()) {
+          alert("CSVファイル1にファイルをセットしてください");
+          return false;
+        }
+      });
+    });
+    </script>
+  </body>
+</html>
