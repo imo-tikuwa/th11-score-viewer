@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 import logzero
 from logzero import logger
 import io
@@ -6,6 +6,7 @@ from io import StringIO
 import csv
 import sys
 import json
+import os
 
 CSV_INDEX_DIFFICULTY = 0
 CSV_INDEX_SCORE = 1
@@ -20,6 +21,11 @@ logzero.logfile('log/application.log', disableStderrLogger = True)
 app = Flask(__name__, static_folder = 'assets')
 # 10MBまでアップロード可
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'assets'), 'favicon.ico', )
 
 
 @app.route("/", methods=['GET'])
