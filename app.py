@@ -60,19 +60,25 @@ def disp_chart():
         else:
             # データ行を辞書に追加(Python3.7からは辞書に入れた順番が保持される模様)
             current = row[CSV_INDEX_CURRET]
+            if current == '':
+                current = str(index)
             score_data[current] = row[CSV_INDEX_SCORE]
             graze_data[current] = row[CSV_INDEX_GRAZE]
             remain_data[current] = row[CSV_INDEX_REMAIN]
         index += 1
 
     logger.debug(score_data)
-    logger.debug(graze_data)
-    logger.debug(remain_data)
-    logger.debug(json.dumps(score_data))
-    logger.debug(json.dumps(graze_data))
-    logger.debug(json.dumps(remain_data))
+#     logger.debug(graze_data)
+#     logger.debug(remain_data)
+    logger.debug(json.dumps(score_data, ensure_ascii=False))
+#     logger.debug(json.dumps(graze_data))
+#     logger.debug(json.dumps(remain_data))
 
-    return render_template("charts.html", score = json.dumps(score_data), graze = json.dumps(graze_data), remain = json.dumps(remain_data))
+    return render_template("charts.html",
+                           score = json.dumps(score_data, ensure_ascii=False),
+                           graze = json.dumps(graze_data, ensure_ascii=False),
+                           remain = json.dumps(remain_data, ensure_ascii=False)
+                           )
 
 
 if __name__ == "__main__":

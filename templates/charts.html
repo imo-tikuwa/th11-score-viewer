@@ -32,34 +32,30 @@
     var score_chart = am4core.create("score-chart", am4charts.XYChart);
 
     var data = [];
-    var value = 50;
-    for(var i = 0; i < 300; i++){
-      var date = new Date();
-      date.setHours(0,0,0,0);
-      date.setDate(i);
-      value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-      data.push({date:date, value: value});
-    }
-
-    score_chart.data = JSON.parse('{{ score }}');
+    var score_data = JSON.parse('{{ score|safe }}');
+    for (let key in score_data) {
+      data.push({key:key, value: score_data[key]});
+    };
+    score_chart.data = data
 
     // Create axes
-    var dateAxis = score_chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 60;
+    var xAxis = score_chart.xAxes.push(new am4charts.CategoryAxis());
+    xAxis.dataFields.category = "key";
+    xAxis.renderer.minGridDistance = 200;
 
-    var valueAxis = score_chart.yAxes.push(new am4charts.ValueAxis());
+    var yAxis = score_chart.yAxes.push(new am4charts.ValueAxis());
 
     // Create series
     var series = score_chart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY = "value";
-    series.dataFields.dateX = "date";
+    series.dataFields.categoryX = "key";
     series.tooltipText = "{value}"
 
     series.tooltip.pointerOrientation = "vertical";
 
     score_chart.cursor = new am4charts.XYCursor();
     score_chart.cursor.snapToSeries = series;
-    score_chart.cursor.xAxis = dateAxis;
+    score_chart.cursor.xAxis = xAxis;
     score_chart.scrollbarX = new am4core.Scrollbar();
 
     }); // end am4core.ready()
