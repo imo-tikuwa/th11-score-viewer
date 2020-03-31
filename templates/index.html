@@ -13,6 +13,9 @@
         <header class="special container">
           <h2>東方地霊殿のスコアデータCSVをグラフ表示するやつ</h2>
           <span class="icon solid fa-chart-bar"></span>
+          {% if error %}
+            <div class="error">{{ error }}</div>
+          {% endif %}
           <form action="/" enctype="multipart/form-data" method="POST">
             <table>
               <tr>
