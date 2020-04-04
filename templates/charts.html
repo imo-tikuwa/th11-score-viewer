@@ -44,8 +44,9 @@
         var chart = am4core.create(chart_id, am4charts.XYChart);
         var data = [];
         var csv_data = JSON.parse(chart_data[chart_id]['data']);
-        for (let key in csv_data) {
-          data.push({key: key, value: csv_data[key]});
+        console.log(csv_data);
+        for (let key in csv_data[0]) {
+          data.push({key: key, value: csv_data[0][key]});
         };
         chart.data = data
 
@@ -64,6 +65,7 @@
         series.dataFields.categoryX = "key";
         series.tooltipText = "{value}"
         series.tooltip.pointerOrientation = "vertical";
+        series.fillOpacity = 0.3;
 
         var label = chart.createChild(am4core.Label);
         label.text = chart_data[chart_id]['title'];
