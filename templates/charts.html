@@ -60,12 +60,11 @@
         xAxis.renderer.labels.template.rotation = -20;
         xAxis.renderer.labels.template.fontSize = 14;
 
-        for (var i = 0; i < {{ data_count }}; i++) {
+        var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        yAxis.renderer.labels.template.fontSize = 14;
+        yAxis.renderer.labels.template.minWidth = 130;
 
-          var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
-          yAxis.dataFields.value = "value" + i;
-          yAxis.renderer.labels.template.fontSize = 14;
-          yAxis.renderer.labels.template.minWidth = 130;
+        for (var i = 0; i < {{ data_count }}; i++) {
 
           var series = chart.series.push(new am4charts.LineSeries());
           series.data = chart.data;
