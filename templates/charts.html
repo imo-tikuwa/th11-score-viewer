@@ -26,57 +26,60 @@
     am4core.ready(function() {
       am4core.useTheme(am4themes_animated);
 
-      var chart_data = {
+      var chart_master_data = {
         "score-chart": {
           'title': 'スコア推移',
-          'data': '{{ score|safe }}'
+          'chart-data': '{{ score|safe }}'
         },
         "graze-chart": {
           'title': 'グレイズ推移',
-          'data': '{{ graze|safe }}'
+          'chart-data': '{{ graze|safe }}'
         },
         "remain-chart": {
           'title': '残機推移',
-          'data': '{{ remain|safe }}'
+          'chart-data': '{{ remain|safe }}'
         }
       };
-      for (let chart_id in chart_data){
+      for (let chart_id in chart_master_data){
+
+        var chart_data = JSON.parse(chart_master_data[chart_id]['chart-data']);
+
         var chart = am4core.create(chart_id, am4charts.XYChart);
-        var data = [];
-        var csv_data = JSON.parse(chart_data[chart_id]['data']);
-        console.log(csv_data);
-        for (let key in csv_data[0]) {
-          data.push({key: key, value: csv_data[0][key]});
-        };
-        chart.data = data
-
-        var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        xAxis.dataFields.category = "key";
-        xAxis.renderer.minGridDistance = 100;
-        xAxis.renderer.labels.template.rotation = -20;
-        xAxis.renderer.labels.template.fontSize = 14;
-
-        var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        yAxis.renderer.labels.template.fontSize = 14;
-        yAxis.renderer.labels.template.minWidth = 130;
-
-        var series = chart.series.push(new am4charts.LineSeries());
-        series.dataFields.valueY = "value";
-        series.dataFields.categoryX = "key";
-        series.tooltipText = "{value}"
-        series.tooltip.pointerOrientation = "vertical";
-        series.fillOpacity = 0.3;
+        chart.data = chart_data;
 
         var label = chart.createChild(am4core.Label);
-        label.text = chart_data[chart_id]['title'];
+        label.text = chart_master_data[chart_id]['title'];
         label.fontSize = 16;
         label.isMeasured = false;
         label.x = 150;
         label.y = 40;
 
+        var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        xAxis.dataFields.category = "current";
+        xAxis.renderer.minGridDistance = 100;
+        xAxis.renderer.labels.template.rotation = -20;
+        xAxis.renderer.labels.template.fontSize = 14;
+
+        for (var i = 0; i < {{ data_count }}; i++) {
+
+          var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
+          yAxis.dataFields.value = "value" + i;
+          yAxis.renderer.labels.template.fontSize = 14;
+          yAxis.renderer.labels.template.minWidth = 130;
+
+          var series = chart.series.push(new am4charts.LineSeries());
+          series.data = chart.data;
+          series.name = "series" + i;
+          series.dataFields.valueY = "value" + i;
+          series.dataFields.categoryX = "current";
+          series.tooltipText = "CSV" + (i + 1) + ":{valueY}";
+          series.tooltip.pointerOrientation = "vertical";
+          series.fillOpacity = 0.3;
+        }
+
         chart.cursor = new am4charts.XYCursor();
-        chart.cursor.snapToSeries = series;
         chart.cursor.xAxis = xAxis;
+
         chart.scrollbarX = new am4core.Scrollbar();
       };
     });
