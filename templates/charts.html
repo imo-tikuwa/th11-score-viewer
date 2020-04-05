@@ -47,6 +47,13 @@
         var chart = am4core.create(chart_id, am4charts.XYChart);
         chart.data = chart_data;
 
+        var label = chart.createChild(am4core.Label);
+        label.text = chart_master_data[chart_id]['title'];
+        label.fontSize = 16;
+        label.isMeasured = false;
+        label.x = 150;
+        label.y = 40;
+
         var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
         xAxis.dataFields.category = "current";
         xAxis.renderer.minGridDistance = 100;
@@ -65,26 +72,15 @@
           series.name = "series" + i;
           series.dataFields.valueY = "value" + i;
           series.dataFields.categoryX = "current";
-          series.tooltipText = "{categoryX}:{valueY}";
+          series.tooltipText = "CSV" + (i + 1) + ":{valueY}";
           series.tooltip.pointerOrientation = "vertical";
           series.fillOpacity = 0.3;
-
-          if (i == 0) {
-            var label = chart.createChild(am4core.Label);
-            label.text = chart_master_data[chart_id]['title'];
-            label.fontSize = 16;
-            label.isMeasured = false;
-            label.x = 150;
-            label.y = 40;
-
-            chart.cursor = new am4charts.XYCursor();
-            chart.cursor.snapToSeries = series;
-            chart.cursor.xAxis = xAxis;
-            chart.scrollbarX = new am4core.Scrollbar();
-          }
         }
 
+        chart.cursor = new am4charts.XYCursor();
+        chart.cursor.xAxis = xAxis;
 
+        chart.scrollbarX = new am4core.Scrollbar();
       };
     });
     </script>

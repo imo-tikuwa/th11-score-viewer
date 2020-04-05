@@ -58,9 +58,9 @@ def disp_chart():
     csv_stream1 = io.TextIOWrapper(csv_file1, encoding = 'sjis')
     csv_data1 = StringIO(csv_stream1.read())
 
-    score_data = {}
-    graze_data = {}
-    remain_data = {}
+    score_data = []
+    graze_data = []
+    remain_data = []
     csv1_index_and_current_map = {}
     data_count = 1
     append_index = 0
@@ -78,9 +78,9 @@ def disp_chart():
             current = row[CSV_INDEX_CURRENT]
             if current == '':
                 current = str(append_index)
-            score_data[append_index] = {"current": current, "value0": row[CSV_INDEX_SCORE]}
-            graze_data[append_index] = {"current": current, "value0": row[CSV_INDEX_GRAZE]}
-            remain_data[append_index] = {"current": current, "value0": row[CSV_INDEX_REMAIN]}
+            score_data.append({"current": current, "value0": row[CSV_INDEX_SCORE]})
+            graze_data.append({"current": current, "value0": row[CSV_INDEX_GRAZE]})
+            remain_data.append({"current": current, "value0": row[CSV_INDEX_REMAIN]})
             csv1_index_and_current_map[current] = append_index
             append_index += 1
 
