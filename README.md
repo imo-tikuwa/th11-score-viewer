@@ -1,5 +1,7 @@
 # th11-score-viewer
 
+![1](https://user-images.githubusercontent.com/48991931/78466277-4c4acb00-773a-11ea-80d2-f07b645cfcb9.png)
+
 ## このプログラムについて
 [th11-score-capture](https://github.com/imo-tikuwa/th11-score-capture)で東方地霊殿から取得したスコア、グレイズ、残機を含むCSVデータをチャート表示するプログラム。  
 Flaskを使用しています。
